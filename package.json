@@ -33,7 +33,7 @@
             }
         }
     },
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "MIT",
     "types": "./build/types/src/index.d.ts",
     "main": "build/src/index.mjs",
