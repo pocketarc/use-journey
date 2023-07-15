@@ -1,6 +1,10 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { getStepsMap, isStepSlug } from "./types";
-export { getStepsMap };
+export function getStepsMap(val) {
+    return new Map(val.map((step) => [step.slug, step]));
+}
+function isStepSlug(val, steps) {
+    return val !== undefined && steps.has(val);
+}
 function computeStep(step) {
     var _a;
     const getPreviousStep = (state, computed) => {

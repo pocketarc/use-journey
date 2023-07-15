@@ -62,5 +62,3 @@ export interface CurrentStep<StepSlugs extends string, State extends DefaultStat
     hasPreviousStep: boolean;
     hasNextStep: boolean;
 }
-export declare function getStepsMap<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata>(val: Step<StepSlugs, State, Metadata>[]): Steps<StepSlugs, State, Metadata>;
-export declare function isStepSlug<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata>(val: string | undefined, steps: Steps<StepSlugs, State, Metadata>): val is StepSlugs;

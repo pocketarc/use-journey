@@ -1,9 +1,24 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import type { ComponentProps, ComputedStep, ComputedSteps, CurrentStep, DefaultMetadata, DefaultState, Step, Steps } from "./types";
-import { getStepsMap, isStepSlug } from "./types";
 
 export type { ComponentProps, Step, Steps, ComputedStep, ComputedSteps, DefaultState, DefaultMetadata };
-export { getStepsMap };
+
+/**
+ * A helper function to create a typed map of steps.
+ * By wrapping your steps in this function, TypeScript will automatically infer the type of the steps (slugs, state, etc) without you having to set it yourself.
+ */
+export function getStepsMap<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata>(
+    val: Step<StepSlugs, State, Metadata>[],
+): Steps<StepSlugs, State, Metadata> {
+    return new Map(val.map((step) => [step.slug, step]));
+}
+
+function isStepSlug<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata>(
+    val: string | undefined,
+    steps: Steps<StepSlugs, State, Metadata>,
+): val is StepSlugs {
+    return val !== undefined && steps.has(val as StepSlugs);
+}
 
 function computeStep<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata>(
     step: Step<StepSlugs, State, Metadata, StepSlugs>,

@@ -182,20 +182,3 @@ export interface CurrentStep<StepSlugs extends string, State extends DefaultStat
     hasPreviousStep: boolean;
     hasNextStep: boolean;
 }
-
-/**
- * A helper function to create a typed map of steps.
- * By wrapping your steps in this function, TypeScript will automatically infer the type of the steps (slugs, state, etc) without you having to set it yourself.
- */
-export function getStepsMap<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata>(
-    val: Step<StepSlugs, State, Metadata>[],
-): Steps<StepSlugs, State, Metadata> {
-    return new Map(val.map((step) => [step.slug, step]));
-}
-
-export function isStepSlug<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata>(
-    val: string | undefined,
-    steps: Steps<StepSlugs, State, Metadata>,
-): val is StepSlugs {
-    return val !== undefined && steps.has(val as StepSlugs);
-}
