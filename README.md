@@ -1,39 +1,51 @@
 # useJourney, a React hook for building user journeys
 
-## Why?
+## The problem
 
-Over the years, I’ve built several different user journeys as part of my work, and as they grow they always end up becoming harder and harder to maintain. Logic starts getting convoluted between different steps, you lose track of what step should come next, all the different variables you’re depending on, and it becomes a bit of a mess.
+Over the years, I've built several different user journeys as part of my work, and as they grow, they always become harder and harder to maintain. Logic between steps starts getting convoluted, and you need to track what step should come next and all the different variables you depend on. It becomes a mess.
 
-I’ve thought about this a fair bit and started looking at state machines to deal with it. XState seemed the most appealing, but ultimately seemed a bit too divorced from my problem to really fit into it (if you disagree, I’d love to hear your opinion!).
+I've thought a lot about this and started looking at state machines to deal with it. Libraries like XState seemed appealing but ultimately seemed too divorced from my problem to fit into it (if you disagree, I'd love to hear your opinion!).
 
 ## What do we need?
 
-At their core, all journeys have more or less the same need for answers. Based on your state:
+At their core, all journeys have the same need for answers. Based on your state:
 
-- What’s the next step?
+- What's the next step?
 - Should we even show a next button?
 - Which steps are complete?
-- Which parts of the journey are available to the user given the answers they’ve given so far?
+- Which parts of the journey are available to the user given the answers they've given so far?
 - Is this the last step of the journey?
 - And so on.
 
 How can you build all this logic into your system in a way that is maintainable, easy to extend, and easy to reason about?
 
+What if it was as simple as:
+
+```tsx
+export default function MyJourney() {
+    const { CurrentStep } = useJourney(steps, state);
+    return <CurrentStep />;
+}
+
+```
+
 ## How it works
 
-There are two key things you give useJourney: State, and Steps. State is easy; it’s all the variables that define your journey’s current state, including the step the user is currently on. The Steps parameter is where the magic happens; it contains all the information for each step, including any of the step’s necessary logic.
+There are two key things you give useJourney: State and Steps. State is easy; it's all the variables that define your journey's current state, including the step the user is currently on. The Steps parameter is where the magic happens; it contains all the information for each step, including any necessary logic.
 
-The example below shows off a complete journey, including a step that is skipped based on the user’s answer to a previous question.
+With that, each step can decide on its own situation, whether it's skipped or complete, whether the user should be allowed to proceed from it, etc. Logic becomes easy to maintain, as each step has full access to the entire state object and the results of decisions by other steps (e.g., mark this step as skipped if Step X is also skipped). It also becomes easy to keep everything organized, as each step (and its component) can be kept in separate files.
 
-The journey is defined as a map of steps (getStepsMap is used to infer types correctly in TypeScript), each of which has a slug, metadata, and any logic that needs to be run to determine if the step is complete or skipped.
+The example below shows off a complete journey, including a step that gets skipped based on the user's answer to a previous question.
 
-The metadata is just a container for any data you want to pass to the step’s component, and all logic is just functions that take the state and use it to make decisions.
+You define a journey as a map of steps (you can use `getStepsMap` to infer types in TypeScript, which will give you autocomplete in your IDE for all of a step's possible properties), each of which has a slug, metadata, and any logic that you need to run to determine if the step is complete or skipped.
+
+The metadata is just a container for any data you want to pass to the step's component, and all logic is just functions that take the state and use it to make decisions.
 
 ## How to use it
 
-Each of the steps below -could- be in a different file, so it would be very easy for you to create huge complex journeys and keep them all neatly organised.
+Each step in a journey should be in a different file, so it's straightforward to create huge complex journeys and keep them all neatly organized. In this example, we will define all the steps in the same file to keep it simple.
 
-You can get more documentation in [docs/index.html](https://github.com/pocketarc/use-journey/blob/main/docs/index.html).
+You can get more documentation at [pocketarc.github.io/use-journey](https://pocketarc.github.io/use-journey/).
 
 ```tsx
 
@@ -108,7 +120,7 @@ export default function SimpleJourney() {
         * `goToPreviousStep()`: A function that will take the user to the previous step in the journey.
         * The type of the props is `ComponentProps<State, Metadata>`. You can use that in your step components (specifying your own `State` and `Metadata` types) to get proper typing.
 
-### You can also customise the logic for each step in the journey by providing:
+### You can also customize the logic for each step in the journey by providing the following properties:
 
 * `metadata` (optional): The metadata of the step in the journey.
     * This is entirely defined by you (the developer), and can be anything you want.
@@ -131,8 +143,8 @@ export default function SimpleJourney() {
 * `metadata`: The metadata of the current step in the journey.
     * This is entirely defined by you (the developer), and can be anything you want.
     * It is passed to the step's component as a prop.
-* `CurrentStep`: The component for the current step in the journey.
-    * This is a React component, so you can just render it as `<CurrentStep />`.
+* `CurrentStep`: The React component for the current step in the journey.
+    * You can use this component as `<CurrentStep />`.
     * It receives the following props:
         * `state`: The state of the journey.
         * `setState`: A function that will update the state of the journey.
@@ -165,11 +177,9 @@ export default function SimpleJourney() {
 * `isSkipped`: A boolean that indicates whether the current step is skipped.
     * default: `false`
 
-You can find further documentation in [docs/index.html](https://github.com/pocketarc/use-journey/blob/main/docs/index.html).
+You can find further documentation at [pocketarc.github.io/use-journey](https://pocketarc.github.io/use-journey/).
 
-If there's anything missing, or anything is unclear, please open an issue and I'll get it fixed! I'm also happy to accept PRs for documentation.
-
-## Getting started / Installation
+## Getting started
 
 Pretty standard, use [npm](https://www.npmjs.com/) (or yarn, or pnpm) to install use-journey.
 
@@ -177,11 +187,15 @@ Pretty standard, use [npm](https://www.npmjs.com/) (or yarn, or pnpm) to install
 npm install @pocketarc/use-journey
 ```
 
+## Help and support
+
+If there's anything you need, don't be afraid to ask! This package is still in an early stage of development, and I'm looking for an outside perspective from others trying to build their own journeys, so feel free to raise issues as needed. PRs are welcome, as well.
+
 ## Contributing
 
-PRs are welcome! Please open an issue first to discuss what you'd like to change, and then open a PR with your changes.
+PRs are welcome! Please open an issue first to discuss what you'd like to change, then open a PR with your changes.
 
-Please make sure to update tests as appropriate, and run `npm run test` to make sure everything is working as expected.
+Please update tests as appropriate, and run `npm run test` to ensure everything is working as expected.
 
 ## License
 
