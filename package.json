@@ -35,7 +35,7 @@
     },
     "version": "1.0.0",
     "license": "MIT",
-    "types": "./build/src/types/index.d.ts",
+    "types": "./build/types/src/index.d.ts",
     "main": "build/src/index.js",
     "type": "module",
     "directories": {
