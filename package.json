@@ -25,14 +25,30 @@
         "email": "hello@pocketarc.com",
         "url": "https://pocketarc.com"
     },
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./build/types/src/index.d.ts",
+                "default": "./build/src/index.mjs"
+            }
+        }
+    },
     "version": "1.0.0",
     "license": "MIT",
-    "main": "build/index.js",
+    "types": "./build/src/types/index.d.ts",
+    "main": "build/src/index.js",
     "type": "module",
+    "directories": {
+        "lib": "src",
+        "doc": "docs",
+        "example": "examples"
+    },
     "scripts": {
-        "build": "tsc --build",
-        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-        "docs": "typedoc src/index.tsx"
+        "build": "npm run clean && npm run build:esm",
+        "build:esm": "tsc -p ./tsconfig.json && mv build/src/index.js build/src/index.mjs",
+        "clean": "rm -rf ./build",
+        "docs": "typedoc src/index.tsx",
+        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
     },
     "dependencies": {
         "react": "^18.2.0",
@@ -44,12 +60,12 @@
         "@babel/preset-typescript": "^7.22.5",
         "@jest/globals": "^29.6.1",
         "@testing-library/react": "^14.0.0",
-        "@types/react": "^18.2.14",
-        "@types/react-dom": "^18.2.6",
+        "@types/react": "^18.2.15",
+        "@types/react-dom": "^18.2.7",
         "@typescript-eslint/eslint-plugin": "^6.0.0",
         "@typescript-eslint/parser": "^6.0.0",
         "babel-jest": "^29.6.1",
-        "eslint": "^8.44.0",
+        "eslint": "^8.45.0",
         "eslint-config-google": "^0.14.0",
         "eslint-config-prettier": "^8.8.0",
         "eslint-plugin-react-hooks": "^4.6.0",

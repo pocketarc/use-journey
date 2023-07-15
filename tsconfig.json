@@ -1,18 +1,17 @@
 {
     "compilerOptions": {
         "lib": [
-            "esnext",
-            "dom"
+            "ESNext",
+            "DOM"
         ],
-        "module": "esnext",
-        "moduleResolution": "node",
-        "target": "es2015",
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "target": "ES2015",
         "strict": true,
         "alwaysStrict": true,
         "allowJs": false,
         "esModuleInterop": true,
         "skipLibCheck": true,
-        "noEmit": true,
         "jsx": "react",
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
@@ -39,6 +38,11 @@
         "noUnusedParameters": true,
         "verbatimModuleSyntax": true,
         "removeComments": true,
-        "pretty": true
-    }
+        "pretty": true,
+        "outDir": "./build",
+        "declarationDir": "./build/types"
+    },
+    "include": [
+        "./src"
+    ]
 }
