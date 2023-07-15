@@ -1,0 +1,32 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/stylistic-type-checked",
+        "plugin:@typescript-eslint/stylistic-type-checked",
+        "plugin:react-hooks/recommended",
+        "google",
+        "prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": true,
+        "tsconfigRootDir": "."
+    },
+    "root": true,
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "require-jsdoc": "off",
+        "no-return-await": "error",
+        "prefer-promise-reject-errors": "error",
+        "no-console": "error",
+        "valid-jsdoc": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^_"
+            }
+        ]
+    }
+}

@@ -1,0 +1,11 @@
+.idea
+.eslintignore
+.eslintrc.json
+.gitignore
+.prettierignore
+.prettierrc.json
+babel.config.js
+jest.config.json
+docs/*
+examples/*
+tests/*
