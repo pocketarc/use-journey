@@ -122,7 +122,7 @@ function computeStep<StepSlugs extends string, State extends DefaultState, Metad
 export function useJourney<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata>(
     steps: Steps<StepSlugs, State, Metadata>,
     state: State,
-    setState: (state: State) => void,
+    setState: React.Dispatch<React.SetStateAction<State>>,
 ) {
     const [, updateState] = useState({});
     const forceUpdate = useCallback(() => updateState({}), []);

@@ -33,7 +33,7 @@
             }
         }
     },
-    "version": "1.0.1",
+    "version": "1.0.2",
     "license": "MIT",
     "types": "./build/types/src/index.d.ts",
     "main": "build/src/index.mjs",
@@ -44,7 +44,7 @@
         "example": "examples"
     },
     "scripts": {
-        "build": "npm run clean && npm run build:esm",
+        "build": "npm run clean && npm run build:esm && npm run docs",
         "build:esm": "tsc -p ./tsconfig.json && mv build/src/index.js build/src/index.mjs",
         "clean": "rm -rf ./build",
         "docs": "typedoc src/index.tsx",
