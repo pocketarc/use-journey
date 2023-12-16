@@ -24,9 +24,6 @@ const steps = getStepsMap([
     },
     {
         slug: "is-new",
-        metadata: {
-            example: "hello, metadata!",
-        },
         component: StepIsNew,
         isComplete: (state: State) => {
             return state.isNew !== undefined;
@@ -54,7 +51,12 @@ export default function SimpleJourney() {
         isNew: undefined,
         fullName: undefined,
     });
-    const { CurrentStep, showPreviousButton, showNextButton, goToNextStep, goToPreviousStep, slug } = useJourney(steps, state, setState);
+
+    const metadata = {
+        example: "hello, metadata!",
+    };
+
+    const { CurrentStep, showPreviousButton, showNextButton, goToNextStep, goToPreviousStep, slug } = useJourney(steps, state, setState, metadata);
 
     return (
         <>

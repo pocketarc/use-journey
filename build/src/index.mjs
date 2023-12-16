@@ -6,7 +6,6 @@ function isStepSlug(val, steps) {
     return val !== undefined && steps.has(val);
 }
 function computeStep(step) {
-    var _a;
     const getPreviousStep = (state, computed) => {
         const keys = Array.from(computed.keys());
         const index = keys.indexOf(step.slug);
@@ -56,7 +55,6 @@ function computeStep(step) {
     return {
         slug: step.slug,
         component: step.component,
-        metadata: (_a = step.metadata) !== null && _a !== void 0 ? _a : {},
         isComplete: isComplete,
         isEnabled: (state, computed) => (step.isEnabled ? step.isEnabled(state, computed) : true),
         isSubmittable: (state, computed) => (step.isSubmittable ? step.isSubmittable(state, computed) : true),
@@ -100,7 +98,7 @@ function computeStep(step) {
         },
     };
 }
-export function useJourney(steps, state, setState) {
+export function useJourney(steps, state, setState, metadata) {
     const [, updateState] = useState({});
     const forceUpdate = useCallback(() => updateState({}), []);
     const stepsString = JSON.stringify(steps);
@@ -119,7 +117,6 @@ export function useJourney(steps, state, setState) {
         const newCurrentStep = {
             slug: step.slug,
             component: step.component,
-            metadata: step.metadata,
             nextStep: nextStep === null || nextStep === void 0 ? void 0 : nextStep.slug,
             previousStep: previousStep === null || previousStep === void 0 ? void 0 : previousStep.slug,
             isComplete: step.isComplete(state, computed),
@@ -181,9 +178,9 @@ export function useJourney(steps, state, setState) {
     const nextStep = currentStep.nextStep ? computedSteps.get(currentStep.nextStep) : undefined;
     const CurrentStep = () => {
         const props = {
-            metadata: currentStep.metadata,
-            state: state,
-            setState: setState,
+            metadata,
+            state,
+            setState,
             goToNextStep: goToNextStep,
             goToPreviousStep: goToPreviousStep,
         };
@@ -204,7 +201,6 @@ export function useJourney(steps, state, setState) {
         showSubmitButton: currentStep.showSubmitButton,
         enableNextButton: currentStep.enableNextButton,
         slug: currentStep.slug,
-        metadata: currentStep.metadata,
         isEnabled: currentStep.isEnabled,
         isSubmittable: currentStep.isSubmittable,
         isSkipped: currentStep.isSkipped,

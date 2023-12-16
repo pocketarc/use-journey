@@ -5,7 +5,7 @@ export type { ComponentProps, Step, Steps, ComputedStep, ComputedSteps, DefaultS
 
 /**
  * A helper function to create a typed map of steps.
- * By wrapping your steps in this function, TypeScript will automatically infer the type of the steps (slugs, state, etc) without you having to set it yourself.
+ * By wrapping your steps in this function, TypeScript will automatically infer the type of the steps (slugs, state, etc.) without you having to set it yourself.
  */
 export function getStepsMap<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata>(
     val: Step<StepSlugs, State, Metadata>[],
@@ -78,7 +78,6 @@ function computeStep<StepSlugs extends string, State extends DefaultState, Metad
     return {
         slug: step.slug,
         component: step.component,
-        metadata: step.metadata ?? ({} as Metadata),
         isComplete: isComplete,
         isEnabled: (state: State, computed: ComputedSteps<StepSlugs, State, Metadata>) => (step.isEnabled ? step.isEnabled(state, computed) : true),
         isSubmittable: (state: State, computed: ComputedSteps<StepSlugs, State, Metadata>) => (step.isSubmittable ? step.isSubmittable(state, computed) : true),
@@ -123,6 +122,7 @@ export function useJourney<StepSlugs extends string, State extends DefaultState,
     steps: Steps<StepSlugs, State, Metadata>,
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
+    metadata: Metadata,
 ) {
     const [, updateState] = useState({});
     const forceUpdate = useCallback(() => updateState({}), []);
@@ -151,7 +151,6 @@ export function useJourney<StepSlugs extends string, State extends DefaultState,
         const newCurrentStep = {
             slug: step.slug,
             component: step.component,
-            metadata: step.metadata,
             nextStep: nextStep?.slug,
             previousStep: previousStep?.slug,
             isComplete: step.isComplete(state, computed),
@@ -224,9 +223,9 @@ export function useJourney<StepSlugs extends string, State extends DefaultState,
 
     const CurrentStep = () => {
         const props = {
-            metadata: currentStep.metadata,
-            state: state,
-            setState: setState,
+            metadata,
+            state,
+            setState,
             goToNextStep: goToNextStep,
             goToPreviousStep: goToPreviousStep,
         };
@@ -249,7 +248,6 @@ export function useJourney<StepSlugs extends string, State extends DefaultState,
         showSubmitButton: currentStep.showSubmitButton,
         enableNextButton: currentStep.enableNextButton,
         slug: currentStep.slug,
-        metadata: currentStep.metadata,
         isEnabled: currentStep.isEnabled,
         isSubmittable: currentStep.isSubmittable,
         isSkipped: currentStep.isSkipped,

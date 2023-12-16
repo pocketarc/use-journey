@@ -16,7 +16,7 @@ export type DefaultMetadata = object;
  * The props passed to every component in the journey.
  */
 export interface ComponentProps<State extends DefaultState, Metadata extends DefaultMetadata> {
-    metadata?: Metadata;
+    metadata: Metadata;
     state: State;
     setState: (state: State) => void;
     goToNextStep: () => void;
@@ -36,12 +36,6 @@ export interface Step<StepSlugs extends string, State extends DefaultState, Meta
      * The component to render for the step. This is the component that will be rendered when the user is on this step.
      */
     component: React.ComponentType<ComponentProps<State, Metadata>>;
-
-    /**
-     * The metadata of the step. This is used to store additional information about the step that you can use in your custom logic.
-     * This is not used by useJourney itself.
-     */
-    metadata?: Metadata;
 
     /**
      * Whether the step is complete.
@@ -143,7 +137,6 @@ export interface ComputedStep<StepSlugs extends string, State extends DefaultSta
     extends Omit<Step<StepSlugs, State, Metadata, Slug>, "showPreviousButton" | "showNextButton" | "previousStep" | "nextStep"> {
     slug: Slug;
     component: Step<StepSlugs, State, Metadata, Slug>["component"];
-    metadata: Metadata;
     isComplete: (state: State, computed: ComputedSteps<StepSlugs, State, Metadata>) => boolean;
     isEnabled: (state: State, computed: ComputedSteps<StepSlugs, State, Metadata>) => boolean;
     isSubmittable: (state: State, computed: ComputedSteps<StepSlugs, State, Metadata>) => boolean;
@@ -167,7 +160,6 @@ export type ComputedSteps<
 export interface CurrentStep<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata, Slug extends StepSlugs> {
     slug: Slug;
     component: Step<StepSlugs, State, Metadata, Slug>["component"];
-    metadata: Metadata;
     isComplete: boolean;
     isEnabled: boolean;
     isSubmittable: boolean;

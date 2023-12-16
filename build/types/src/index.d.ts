@@ -2,7 +2,7 @@ import React from "react";
 import type { ComponentProps, ComputedStep, ComputedSteps, DefaultMetadata, DefaultState, Step, Steps } from "./types";
 export type { ComponentProps, Step, Steps, ComputedStep, ComputedSteps, DefaultState, DefaultMetadata };
 export declare function getStepsMap<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata>(val: Step<StepSlugs, State, Metadata>[]): Steps<StepSlugs, State, Metadata>;
-export declare function useJourney<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata>(steps: Steps<StepSlugs, State, Metadata>, state: State, setState: React.Dispatch<React.SetStateAction<State>>): {
+export declare function useJourney<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata>(steps: Steps<StepSlugs, State, Metadata>, state: State, setState: React.Dispatch<React.SetStateAction<State>>, metadata: Metadata): {
     CurrentStep: () => React.JSX.Element;
     goToNextStep: () => void;
     goToPreviousStep: () => void;
@@ -17,7 +17,6 @@ export declare function useJourney<StepSlugs extends string, State extends Defau
     showSubmitButton: boolean;
     enableNextButton: boolean;
     slug: StepSlugs;
-    metadata: Metadata;
     isEnabled: boolean;
     isSubmittable: boolean;
     isSkipped: boolean;

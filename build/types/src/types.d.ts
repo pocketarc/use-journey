@@ -4,7 +4,7 @@ export interface DefaultState {
 }
 export type DefaultMetadata = object;
 export interface ComponentProps<State extends DefaultState, Metadata extends DefaultMetadata> {
-    metadata?: Metadata;
+    metadata: Metadata;
     state: State;
     setState: (state: State) => void;
     goToNextStep: () => void;
@@ -13,7 +13,6 @@ export interface ComponentProps<State extends DefaultState, Metadata extends Def
 export interface Step<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata, Slug extends StepSlugs = StepSlugs> {
     slug: Slug;
     component: React.ComponentType<ComponentProps<State, Metadata>>;
-    metadata?: Metadata;
     isComplete?: (state: State, steps: ComputedSteps<StepSlugs, State, Metadata>) => boolean;
     isEnabled?: (state: State, steps: ComputedSteps<StepSlugs, State, Metadata>) => boolean;
     isSubmittable?: (state: State, steps: ComputedSteps<StepSlugs, State, Metadata>) => boolean;
@@ -30,7 +29,6 @@ export type Steps<StepSlugs extends string, State extends DefaultState, Metadata
 export interface ComputedStep<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata, Slug extends StepSlugs = StepSlugs> extends Omit<Step<StepSlugs, State, Metadata, Slug>, "showPreviousButton" | "showNextButton" | "previousStep" | "nextStep"> {
     slug: Slug;
     component: Step<StepSlugs, State, Metadata, Slug>["component"];
-    metadata: Metadata;
     isComplete: (state: State, computed: ComputedSteps<StepSlugs, State, Metadata>) => boolean;
     isEnabled: (state: State, computed: ComputedSteps<StepSlugs, State, Metadata>) => boolean;
     isSubmittable: (state: State, computed: ComputedSteps<StepSlugs, State, Metadata>) => boolean;
@@ -47,7 +45,6 @@ export type ComputedSteps<StepSlugs extends string, State extends DefaultState, 
 export interface CurrentStep<StepSlugs extends string, State extends DefaultState, Metadata extends DefaultMetadata, Slug extends StepSlugs> {
     slug: Slug;
     component: Step<StepSlugs, State, Metadata, Slug>["component"];
-    metadata: Metadata;
     isComplete: boolean;
     isEnabled: boolean;
     isSubmittable: boolean;

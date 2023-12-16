@@ -37,9 +37,9 @@ With that, each step can decide on its own situation, whether it's skipped or co
 
 The example below shows off a complete journey, including a step that gets skipped based on the user's answer to a previous question.
 
-You define a journey as a map of steps (you can use `getStepsMap` to infer types in TypeScript, which will give you autocomplete in your IDE for all of a step's possible properties), each of which has a slug, metadata, and any logic that you need to run to determine if the step is complete or skipped.
+You define a journey as a map of steps (you can use `getStepsMap` to infer types in TypeScript, which will give you autocomplete in your IDE for all of a step's possible properties), each of which has a slug and any logic that you need to run to determine if the step is complete or skipped.
 
-The metadata is just a container for any data you want to pass to the step's component, and all logic is just functions that take the state and use it to make decisions.
+You can pass metadata to the journey, which is a container object for any data you want to pass to the step's component.
 
 ## How to use it
 
@@ -115,16 +115,13 @@ export default function SimpleJourney() {
     * It receives the following props:
         * `state`: The state of the journey.
         * `setState`: A function that will update the state of the journey.
-        * `metadata`: The metadata of the current step in the journey.
+        * `metadata`: The metadata of the journey.
         * `goToNextStep()`: A function that will take the user to the next step in the journey.
         * `goToPreviousStep()`: A function that will take the user to the previous step in the journey.
         * The type of the props is `ComponentProps<State, Metadata>`. You can use that in your step components (specifying your own `State` and `Metadata` types) to get proper typing.
 
 ### You can also customize the logic for each step in the journey by providing the following properties:
 
-* `metadata` (optional): The metadata of the step in the journey.
-    * This is entirely defined by you (the developer), and can be anything you want.
-    * It is passed to the step's component as a prop.
 * `isComplete` (optional): A function that determines whether the step is complete.
 * `isEnabled` (optional): A function that determines whether the step is enabled.
 * `isSubmittable` (optional): A function that determines whether the step is submittable.
@@ -140,7 +137,7 @@ export default function SimpleJourney() {
 ### `useJourney()` exposes the following properties:
 
 * `slug`: The slug of the current step in the journey.
-* `metadata`: The metadata of the current step in the journey.
+* `metadata`: The metadata of the journey.
     * This is entirely defined by you (the developer), and can be anything you want.
     * It is passed to the step's component as a prop.
 * `CurrentStep`: The React component for the current step in the journey.
@@ -148,7 +145,6 @@ export default function SimpleJourney() {
     * It receives the following props:
         * `state`: The state of the journey.
         * `setState`: A function that will update the state of the journey.
-        * `metadata`: The metadata of the current step in the journey.
         * `goToNextStep()`: A function that will take the user to the next step in the journey.
         * `goToPreviousStep()`: A function that will take the user to the previous step in the journey.
 * `goToNextStep()`: A function that will take the user to the next step in the journey.
